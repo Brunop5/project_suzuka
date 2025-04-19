@@ -15,4 +15,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Run my script
-        run: python tests/send_mail.py
+        run: python3 tests/send_mail.py
