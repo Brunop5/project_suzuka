@@ -1,23 +1,28 @@
-name: Run Script Every 3 Hours
+name: Log Script Run
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  
-  workflow_dispatch:       # (optional) manual run button
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
-  run:
+  log:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Debug info
-        run: echo "Running email script at $(date)"
-      - name: Run my script
-        env:
-          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        run: python3 tests/send_mail.py
+
+      - name: Log run to file
+        run: python3 log_run.py
+
+      - name: Commit and push log
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add run_log.txt
+          git commit -m "Log: $(date -u)" || echo "Nothing to commit"
+          git push
