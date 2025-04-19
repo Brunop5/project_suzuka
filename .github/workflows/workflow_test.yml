@@ -17,7 +17,7 @@ jobs:
           python-version: '3.11'
 
       - name: Log run to file
-        run: python3 log_run.py
+        run: python3 tests/log_run.py
 
       - name: Commit and push log
         run: |
