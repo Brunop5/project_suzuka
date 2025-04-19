@@ -2,7 +2,7 @@ name: Run Script Every 3 Hours
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 3 hours
+    - cron: '*/5 * * * *'  
   workflow_dispatch:       # (optional) manual run button
 
 jobs:
