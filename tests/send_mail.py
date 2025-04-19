@@ -1,11 +1,12 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 
-# Your email and app password
-sender_email = "bruno@platek.sk"
-sender_password = "2ZSsATNUnr"
-receiver_email = "bruno@platek.sk"  # or someone else's
+sender_email = os.environ["EMAIL_ADDRESS"]
+sender_password = os.environ["EMAIL_PASSWORD"]
+receiver_email = sender_email
+
 
 subject = "Automated Email from GitHub Actions"
 body = "Hey! This is a test email sent by a Python script via GitHub Actions."
