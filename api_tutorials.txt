@@ -1,0 +1,15 @@
+This is a tutorial for gathering needed api keys and tokens for different platforms.
+
+- Discord:
+    1. login to developer application website with your discord login: 
+    https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications
+
+    2. in top right corner, click the "new application" button (and select a name)
+
+    3.once created, on the left side there is a menu, in that menu go to "bot" section
+
+    4.scroll down, and select bot permissions:
+    "View Channels", "Send Messages", "Embed Links" and "Attach Files"
+
+    5.scroll back up and press the "reset token" button, write your password, and once the token is showed,  it.
+
