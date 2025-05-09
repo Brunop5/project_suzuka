@@ -1,26 +1,10 @@
 import tkinter as tk
-import subprocess
 import discord
 from dotenv import load_dotenv
 import os
 
-
-class Custom_dc_client(discord.Client):
-    def __init__(self, messages, channel_id=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.channel_id = channel_id
-        self.messages = messages
-
-    async def on_ready(self):
-        self.messages.append(f'Logged in as {self.user} (ID: {self.user.id})')
-        channel = self.get_channel(self.channel_id)
-
-        if channel:
-            self.messages.append("Connected to channel successfully.")
-        else:
-            self.messages.append("Channel not found.")
-        await self.close()
-
+from discord_posts import Test_discord
+from reddit_post import test_reddit
 
 class Setup_app:
     def __init__(self):
@@ -35,6 +19,14 @@ class Setup_app:
         self.keys["DISCORD_TOKEN"] = os.getenv("DISCORD_TOKEN")
         self.keys["DISCORD_CHANNEL"] = os.getenv("DISCORD_CHANNEL")
 
+        self.keys["REDDIT_ID"] = os.getenv("REDDIT_ID")
+        self.keys["REDDIT_SECRET"] = os.getenv("REDDIT_SECRET")
+        self.keys["REDDIT_USERNAME"] = os.getenv("REDDIT_USERNAME")
+        self.keys["REDDIT_PASSWORD"] = os.getenv("REDDIT_PASSWORD")
+        self.keys["SUBREDDIT"] = os.getenv("SUBREDDIT")
+
+
+
     def input_field(self, label_text, variable_name):
         tk.Label(self.root, text=label_text).pack()
         tk.Label(self.root, text=self.keys[variable_name]).pack()
@@ -47,11 +39,23 @@ class Setup_app:
         self.root.geometry("1000x700")
         self.root.minsize(500, 400)
 
-        # discord
-        self.input_field("Discord bot token:", "DISCORD_TOKEN")
-        self.input_field("Discord channel ID:", "DISCORD_CHANNEL")
+        tk.Button(self.root, text="Reset_Keys", command=self.get_data).pack()
 
+        # discord
+        tk.Label(self.root, text="DISCORD")
+        self.input_field("Bot token:", "DISCORD_TOKEN")
+        self.input_field("Channel ID:", "DISCORD_CHANNEL")
         tk.Button(self.root, text="Test discord connection", command=self.test_dc).pack()
+
+        # reddit
+        tk.Label(self.root, text="REDDIT")
+        self.input_field("Client ID:", "REDDIT_ID")
+        self.input_field("Secret:", "REDDIT_SECRET")
+        self.input_field("Username:", "REDDIT_USERNAME")
+        self.input_field("Password:", "REDDIT_PASSWORD")
+        self.input_field("Name of the subreddit:", "SUBREDDIT")
+        tk.Button(self.root, text="Test reddit connection", command=self.test_reddit).pack()
+
         tk.Button(self.root, text="Save", command=self.save).pack()
         tk.Button(self.root, text="Done", command=self.done).pack()
 
@@ -75,12 +79,21 @@ class Setup_app:
 
             self.save_new_keys()
 
-            client = Custom_dc_client(messages=messages, channel_id=int(self.keys["DISCORD_CHANNEL"]), intents=intents)
+            client = Test_discord(messages=messages, channel_id=int(self.keys["DISCORD_CHANNEL"]), intents=intents)
             client.run(self.keys["DISCORD_TOKEN"])
             for m in messages:
                 tk.Label(self.root, text=m).pack()
         except Exception as e:
             tk.Label(self.root, text=e).pack()
+
+    def test_reddit(self):
+        self.save_new_keys()
+        print(self.keys["REDDIT_ID"])
+        res = test_reddit(client_id=self.keys["REDDIT_ID"], secret=self.keys["REDDIT_SECRET"], subreddit_name=self.keys["SUBREDDIT"],
+                        username=self.keys["REDDIT_USERNAME"], password=self.keys["REDDIT_PASSWORD"])
+        tk.Label(self.root, text=res).pack()
+
+
 
     def save(self):
         self.save_new_keys()
