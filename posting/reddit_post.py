@@ -11,10 +11,13 @@ def test_reddit(client_id, secret, subreddit_name, username, password):
 
     try:
         reddit.user.me()
-        reddit.subreddit(subreddit_name)
+        sub = reddit.subreddit(subreddit_name)
+        for submission in sub.hot(limit=1):
+            print(submission.title)
+
         return "Successfully logged in and found subreddit"
     except Exception as e:
-        return e
+        return f"An error has occured: {e}"
     
 
 def post_on_reddit(client_id, secret, subreddit_name, username, password, args):
@@ -31,5 +34,5 @@ def post_on_reddit(client_id, secret, subreddit_name, username, password, args):
         subreddit.submit(args)
         return "Success!"
     except Exception as e:
-        return e
+        return f"ERROR: {e}"
     

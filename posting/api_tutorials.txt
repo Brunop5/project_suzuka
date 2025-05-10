@@ -1,0 +1,49 @@
+This is a tutorial for gathering needed api keys and tokens for different platforms.
+
+- Discord:
+    1. login to developer application website with your discord login: 
+    https://discord.com/login?redirect_to=%2Fdevelopers%2Fapplications
+
+    2. in top right corner, click the "new application" button (and select a name)
+
+    3.once created, on the left side there is a menu, in that menu go to "bot" section
+
+    4.scroll down, and select bot permissions:
+    "View Channels", "Send Messages", "Embed Links" and "Attach Files"
+
+    5.scroll back up and press the "reset token" button, write your password, and once the token is showed, copy it.
+
+    6. you can now save the token in the setup app.
+
+    7.to get the channel ID first open discord app
+
+    8. go to settings > advanced and right there turn on the "Developer Mode"
+
+    9.once you do that you can go back, and find the server and the channel you want to post in
+
+    10. right click on the channel, and on the bottom click on the option "Copy channel ID"
+
+    11. you can paste that into the setup app and youre done with discord.
+
+
+- Reddit:
+    1. go to https://www.reddit.com/prefs/apps
+
+    2. log in on top right with reddit creditentials
+
+    3. when you are logged in, in the top left click on the "Create app" button
+
+    4. fill out: 
+        -name: whatever you want. is required.
+        -choose the "script" option
+        -description: is optional
+        -about url: is optional
+        -redirect url: is required, but wont be used. fill it with  "http://www.example.com/unused/redirect/uri"
+
+    5. do capcha and press the "create app" button
+
+    6. a window appears, with details of the app. on the top there is the name, "personal use script" and under it, is the user_Id you need.
+
+    7. copy the user ID and paste it into the setup app.
+
+    8. under it there is the "secret" - copy that too and paste it into the setup app.

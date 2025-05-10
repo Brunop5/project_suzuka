@@ -1,0 +1,28 @@
+This is the tutorial how to open the setup app, and how to work with it.
+
+to open it, run the "posting/setup.py" script.
+
+the app is separated into sections:
+1. Frames for each input field
+    this is separated into sections too:
+    
+    1. rows with name of the token, saved token, and the input field for that token
+    2. "Test platform connection" button, that tests current tokens on that platform
+    3. a window for logs from the testing
+
+2.Save button
+    - saves the current tokens
+3.Done button
+    - exits the app
+
+
+additional info:
+    to see how to get all the necessary api keys, refer to the "posting/api_tutorials.txt" tutorial
+
+    - in the upper sections when we refer to "current" tokens, this is how to find out which are the current ones:
+        - if you just opened the app, the previously saved tokens(the ones written before the input fields), are the current ones.
+        - if you write anything in an input field, the inputed text is the current token for that field.
+        - if you clear an input field, the one saved previously (written next to input field) is the current one
+
+    - if you press the "Save" button, the keys written next to input fields are not updated until you restart the app.
+    so when you save a new token, it is actually saved, but the old one is still showing in the app.
