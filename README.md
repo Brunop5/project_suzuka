@@ -22,17 +22,13 @@
 
 # TODO
 ## Bruno
-  - api_tutorials.txt - finish discord, and add reddit
-  - tutorial.txt - tell him about setup py
   - twitter posting (api)
   - look into linkedin
   - after consulting with ashley - selenium automation posting for patreon
   - after consulting - text changing script
   - text input field gui
+  - after finishing, figure out how to setup, and do a general tutorial
 
 ## Ashley
   - create discord account for code updates(optional but great)
-  - set up all accounts for api intergration(todo later)
-      - create discord app and bot, give it permissions, and send me the token
-      - login creditentials to patreon (only way to do it with selenium)
-      - twitter, reddit api tokens
+  - set up all accounts for api intergration based on tutorial
