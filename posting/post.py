@@ -1,8 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
 from reddit_post import post_on_reddit
+from discord_posts import discord_message
 import os
 from dotenv import load_dotenv
+from text_work import convert_premium_to_discord
 
 class PostApp:
     def __init__(self):
@@ -63,19 +65,62 @@ class PostApp:
                        variable=self.reddit_var).pack(side=tk.LEFT)
 
 
+
+
+        # Add log area at the bottom
+        log_frame = ttk.LabelFrame(main_frame, text="Logs")
+        log_frame.pack(fill=tk.BOTH, expand=True, pady=(10, 0))
+        
+        # Create scrollbar for logs
+        log_scrollbar = ttk.Scrollbar(log_frame)
+        log_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Create text widget for logs
+        self.log_output = tk.Text(log_frame, height=6, width=50,
+                                 yscrollcommand=log_scrollbar.set)
+        self.log_output.pack(fill=tk.BOTH, expand=True)
+        
+        # Configure scrollbar
+        log_scrollbar.config(command=self.log_output.yview)
+
         # Post button
         ttk.Button(main_frame, text="Post", 
                   command=self.post).pack(pady=(10, 0))
 
+    def log_message(self, message):
+        self.log_output.config(state="normal")
+        self.log_output.insert(tk.END, f"{message}\n")
+        self.log_output.see(tk.END)  # Auto-scroll to bottom
+        self.log_output.config(state="disabled")
+
+    def clear_logs(self):
+        self.log_output.config(state="normal")
+        self.log_output.delete(1.0, tk.END)
+        self.log_output.config(state="disabled")
+
     def post(self):
         heading = self.heading_input.get()
         text = self.content_input.get("1.0", tk.END)
+        
+        self.clear_logs()  # Clear previous logs
 
         args = [heading, text]
         if self.reddit_var.get():
-            res = post_on_reddit(os.getenv("REDDIT_ID"), os.getenv("REDDIT_SECRET"), os.getenv("SUBREDDIT"), os.getenv("REDDIT_USERNAME"),
-                                os.getenv("REDDIT_PASSWORD"), args)
-            print(res)
+            res = post_on_reddit(
+                os.getenv("REDDIT_ID"),
+                os.getenv("REDDIT_SECRET"),
+                os.getenv("SUBREDDIT"),
+                os.getenv("REDDIT_USERNAME"),
+                os.getenv("REDDIT_PASSWORD"),
+                args
+            )
+            self.log_message(f"Reddit Response: {res}")
+
+        if self.discord_var.get():
+            messages = discord_message(convert_premium_to_discord(text))
+            self.log_message("Discord Response:")
+            for msg in messages:
+                self.log_message(f"  {msg}")
 
     def run(self):
         self.root.mainloop()

@@ -24,20 +24,25 @@ class Test_discord(discord.Client):
 def discord_message(message):
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL"))
-
+    messages = []
 
     class CustomClient(discord.Client):
+        def __init__(self, messages, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.messages = messages
+
         async def on_ready(self):
-            print(f'Logged in as {self.user} (ID: {self.user.id})')
+            self.messages.append(f'Logged in as {self.user} (ID: {self.user.id})')
             channel = self.get_channel(CHANNEL_ID)
 
             if channel:
-                await channel.send(content=message)
-                print("Message sent successfully.")
+                await channel.send(content=message, suppress_embeds=True)
+                self.messages.append("Message sent successfully.")
             else:
-                print("Channel not found.")
+                self.messages.append("Channel not found.")
             await self.close()
 
     intents = discord.Intents.default()
-    client = CustomClient(intents=intents)
+    client = CustomClient(messages=messages, intents=intents)
     client.run(DISCORD_TOKEN)
+    return messages  # Return the list of messages instead of "Success!"
