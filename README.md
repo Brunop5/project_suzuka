@@ -17,23 +17,12 @@
     - works for both reddit and discord bot
     - need to test more text edits maybe
   
-# DISCORD
-- testing script done
-- posting script done
-- tested
-
-# REDDIT
-- testing script done
-- posting script done
-- tested
-
 # TODO
 ## Bruno
   - twitter posting (api)
   - look into linkedin
-  - after consulting with ashley - selenium automation posting for patreon
-  - after consulting - text changing script
-  - text input field gui
+  - selenium automation posting for patreon
+  - text changing script - test more
   - after finishing, figure out how to setup, and do a general tutorial
 
 ## Ashley
