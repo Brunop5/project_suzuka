@@ -10,6 +10,13 @@
     - platforms easily implementable
     - DISCORD, REDDIT
 
+  - ## POST APP
+    - python app that has title and text input field
+    - simply edits text for discord posts from a patreon premium post
+    - checkboxes for where you want to send, and logs
+    - works for both reddit and discord bot
+    - need to test more text edits maybe
+  
 # DISCORD
 - testing script done
 - posting script done
