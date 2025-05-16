@@ -1,15 +1,15 @@
 # Tutorial
 1. to setup the whole project, you need to run the posting/setup.sh file first by:
-    - opening terminal in the project_suzuka/ directory
+    - opening terminal in the project_suzuka-main/ directory
     - once in the directory, run : "sudo chmod +x posting/setup.sh", and when prompted, input password
     - then run: "bash posting/setup.sh"
     - this will install all the dependencies and create executables.
-2. once it is ran, two executables will show up in the project_suzuka/ directory:
+2. once it is ran, two executables will show up in the project_suzuka-main/ directory:
     - run_post.sh (runs the main app for posting)
     - setup_env.sh (runs the app for setting up api keys)
 3. to run either of them, right click on them and choose "run as a program"
 
-- to gather information on working with the apps and gathering api keys, you can check the tutorials in "project_suzuka/posting/tutorials/" directory
+- to gather information on working with the apps and gathering api keys, you can check the tutorials in "project_suzuka-main/posting/tutorials/" directory
 
 
 # Current State
