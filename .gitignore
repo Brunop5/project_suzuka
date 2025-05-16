@@ -1,6 +1,5 @@
 tests/.env
 __pycache__/
 .env
-automat/
 venv/
 *.jpg
