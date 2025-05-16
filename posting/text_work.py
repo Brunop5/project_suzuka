@@ -1,10 +1,10 @@
 import re
 
-def convert_premium_to_discord(premium_text):
+def convert_premium_to_short(premium_text):
     # Find each stock section
     stock_sections = re.findall(r'(\d️⃣[^🔥]+?)(?=\d️⃣|\Z)', premium_text, re.DOTALL)
     
-    discord_posts = []
+    formatted_parts = []
     
     for section in stock_sections:
         # Extract ticker symbol
@@ -41,14 +41,17 @@ def convert_premium_to_discord(premium_text):
         chart_match = re.search(r'Chart: (https://[^\s]+)', section)
         chart_url = chart_match.group(1) if chart_match else ""
         
-        # Format Discord post
-        discord_post = (
+        # Format post part
+        formatted_part = (
             f"🚀 {ticker} Momentum! {emoji}\n"
             f"Buy: {buy_range} | Target: {target} | Stop: {stop}\n"
             f"{intraday}, {notes}. 📈\n"
             f"Chart: {chart_url}"
         )
         
-        discord_posts.append(discord_post)
+        formatted_parts.append(formatted_part)
     
-    return "\n\n".join(discord_posts) + "\n\nFor informational purposes only, not financial advice."
+    if(len(formatted_parts) == 0):
+        return ""
+    
+    return "\n\n".join(formatted_parts) + "\n\nFor informational purposes only, not financial advice."

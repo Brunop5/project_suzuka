@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
-from reddit_post import post_on_reddit
-from discord_posts import discord_message
+from platforms.reddit_post import post_on_reddit
+from platforms.discord_posts import discord_message
 import os
 from dotenv import load_dotenv
-from text_work import convert_premium_to_discord
+from text_work import convert_premium_to_short
 
 class PostApp:
     def __init__(self):
@@ -54,18 +54,29 @@ class PostApp:
         platform_frame = ttk.Frame(main_frame)
         platform_frame.pack(fill=tk.X, pady=(0, 10))
         
-
-        # checkboxes
-        self.discord_var = tk.BooleanVar()
-        self.reddit_var = tk.BooleanVar()
+        # Discord section
+        discord_frame = ttk.Frame(platform_frame)
+        discord_frame.pack(side=tk.LEFT, padx=(0, 20))
         
-        ttk.Checkbutton(platform_frame, text="Discord", 
-                       variable=self.discord_var).pack(side=tk.LEFT, padx=(0, 20))
-        ttk.Checkbutton(platform_frame, text="Reddit", 
-                       variable=self.reddit_var).pack(side=tk.LEFT)
+        self.discord_var = tk.BooleanVar()
+        self.discord_short_var = tk.BooleanVar()
+        
+        ttk.Checkbutton(discord_frame, text="Discord", 
+                        variable=self.discord_var).pack(side=tk.LEFT)
+        ttk.Checkbutton(discord_frame, text="Shortened", 
+                        variable=self.discord_short_var).pack(side=tk.LEFT, padx=(5, 0))
 
-
-
+        # Reddit section
+        reddit_frame = ttk.Frame(platform_frame)
+        reddit_frame.pack(side=tk.LEFT)
+        
+        self.reddit_var = tk.BooleanVar()
+        self.reddit_short_var = tk.BooleanVar()
+        
+        ttk.Checkbutton(reddit_frame, text="Reddit", 
+                        variable=self.reddit_var).pack(side=tk.LEFT)
+        ttk.Checkbutton(reddit_frame, text="Shortened", 
+                        variable=self.reddit_short_var).pack(side=tk.LEFT, padx=(5, 0))
 
         # Add log area at the bottom
         log_frame = ttk.LabelFrame(main_frame, text="Logs")
@@ -104,23 +115,36 @@ class PostApp:
         
         self.clear_logs()  # Clear previous logs
 
-        args = [heading, text]
+        
         if self.reddit_var.get():
-            res = post_on_reddit(
-                os.getenv("REDDIT_ID"),
-                os.getenv("REDDIT_SECRET"),
-                os.getenv("SUBREDDIT"),
-                os.getenv("REDDIT_USERNAME"),
-                os.getenv("REDDIT_PASSWORD"),
-                args
-            )
+            msg = convert_premium_to_short(text) if self.reddit_short_var.get() else text
+            if msg == "":
+                res = "\n    Message couldn't be converted into short form, so it wasnt sent.\n    Compare the text format with the one in posting/tutorials/sample_long.txt, or send it in long(unedited) form."
+            else:
+                args = [heading, msg]
+                res = post_on_reddit(
+                    os.getenv("REDDIT_ID"),
+                    os.getenv("REDDIT_SECRET"),
+                    os.getenv("SUBREDDIT"),
+                    os.getenv("REDDIT_USERNAME"),
+                    os.getenv("REDDIT_PASSWORD"),
+                    args
+                )
             self.log_message(f"Reddit Response: {res}")
 
         if self.discord_var.get():
-            messages = discord_message(convert_premium_to_discord(text))
+            # Use shortened version if checkbox is checked
+            msg = convert_premium_to_short(text) if self.discord_short_var.get() else text
+            if msg == "":
+                messages = ["Message couldn't be converted into short form, so it wasnt sent.","Compare the text format with the one in posting/tutorials/sample_long.txt, or send it in long(unedited) form."]
+            
+            else:
+                discord_text = heading + "\n\n" + msg
+
+                messages = discord_message(discord_text)
             self.log_message("Discord Response:")
-            for msg in messages:
-                self.log_message(f"  {msg}")
+            for m in messages:
+                self.log_message(f"    {m}")
 
     def run(self):
         self.root.mainloop()

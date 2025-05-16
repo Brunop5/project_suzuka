@@ -22,9 +22,14 @@ class Test_discord(discord.Client):
 
 # real
 def discord_message(message):
-    DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-    CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL"))
     messages = []
+    DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+    id = os.getenv("DISCORD_CHANNEL")
+    if DISCORD_TOKEN == None or id == None:
+        messages.append("Token or channel ID missing! Add them via setup.py, or uncheck the discord input.")
+        return messages
+    CHANNEL_ID = int(id)
+
 
     class CustomClient(discord.Client):
         def __init__(self, messages, *args, **kwargs):

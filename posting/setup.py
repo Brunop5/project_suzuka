@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 import os
 import tkinter.messagebox as messagebox
 
-from discord_posts import Test_discord
-from reddit_post import test_reddit
+from platforms.discord_posts import Test_discord
+from platforms.reddit_post import test_reddit
 
 class Setup_app:
     def __init__(self):
