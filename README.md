@@ -12,17 +12,16 @@
 
   - ## POST APP
     - python app that has title and text input field
-    - simply edits text for discord posts from a patreon premium post
-    - checkboxes for where you want to send, and logs
+    - simply edits text to short posts from a premium post
+    - checkboxes for where you want to send and what form, and logs
     - works for both reddit and discord bot
-    - need to test more text edits maybe
+    - todo: add other platforms
   
 # TODO
 ## Bruno
   - twitter posting (api)
   - look into linkedin
   - selenium automation posting for patreon
-  - text changing script - test more
   - after finishing, figure out how to setup, and do a general tutorial
 
 ## Ashley
