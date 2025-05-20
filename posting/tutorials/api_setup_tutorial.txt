@@ -1,6 +1,6 @@
-This is the tutorial how to open the setup app, and how to work with it.
+This is the tutorial how to open the "api setup app", and how to work with it.
 
-to open it, run the "posting/setup.py" script.
+to open it, run the "setup_env.sh" script.
 
 the app is separated into sections:
 1. Frames for each input field

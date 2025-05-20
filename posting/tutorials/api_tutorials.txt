@@ -47,3 +47,10 @@ This is a tutorial for gathering needed api keys and tokens for different platfo
     7. copy the user ID and paste it into the setup app.
 
     8. under it there is the "secret" - copy that too and paste it into the setup app.
+
+- Patreon:
+    patreon is the easiest one. since they dont have an api, its done with the selenium automation tool.
+    it opens an invisible chrome window and operates on it. the error codes are written by me since selenium ones are unhelpful.
+    if you dont have chrome installed - dont worry, im gonna work on other browsers shortly.
+
+    in the window it just logges in with your creditentials and redirects to post page
