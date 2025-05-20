@@ -9,6 +9,7 @@ import tkinter.messagebox as messagebox
 
 from platforms.discord_posts import Test_discord
 from platforms.reddit_post import test_reddit
+from platforms.patreon_post import test_patreon_login
 
 class Setup_app:
     def __init__(self):
@@ -28,6 +29,9 @@ class Setup_app:
         self.keys["REDDIT_USERNAME"] = os.getenv("REDDIT_USERNAME")
         self.keys["REDDIT_PASSWORD"] = os.getenv("REDDIT_PASSWORD")
         self.keys["SUBREDDIT"] = os.getenv("SUBREDDIT")
+
+        self.keys["PATREON_MAIL"] = os.getenv("PATREON_MAIL")
+        self.keys["PATREON_PSSWD"] = os.getenv("PATREON_PSSWD")
 
     def create_platform_frame(self, parent, platform_name):
         """Create a frame for each platform with its inputs and log area"""
@@ -93,6 +97,13 @@ class Setup_app:
                   command=lambda: self.test_reddit(self.reddit_log)).pack(pady=5)
 
 
+        # Patreon section
+        self.patreon_frame, patreon_inputs, self.patreon_log = self.create_platform_frame(scrollable_frame, "PATREON")
+        self.input_field(patreon_inputs, "Email:", "PATREON_MAIL")
+        self.input_field(patreon_inputs, "Password:", "PATREON_PSSWD")
+        ttk.Button(patreon_inputs, text="Test patreon connection", 
+                  command=lambda: self.test_patreon(self.patreon_log)).pack(pady=5)
+
 
         # Bottom buttons
         button_frame = ttk.Frame(scrollable_frame)
@@ -157,6 +168,17 @@ class Setup_app:
                 username=self.keys["REDDIT_USERNAME"],
                 password=self.keys["REDDIT_PASSWORD"]
             )
+            self.log_message(log_widget, res)
+        except Exception as e:
+            self.log_message(log_widget, f"Error: {str(e)}")
+
+    def test_patreon(self, log_widget):
+        self.clear_log(log_widget)
+        try:
+            self.get_data()
+            self.save_new_keys()
+
+            res = test_patreon_login(self.keys["PATREON_MAIL"], self.keys["PATREON_PSSWD"])
             self.log_message(log_widget, res)
         except Exception as e:
             self.log_message(log_widget, f"Error: {str(e)}")
