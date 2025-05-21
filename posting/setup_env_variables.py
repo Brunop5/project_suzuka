@@ -174,12 +174,13 @@ class Setup_app:
 
     def test_patreon(self, log_widget):
         self.clear_log(log_widget)
+        messages = []
         try:
             self.get_data()
             self.save_new_keys()
 
-            res = test_patreon_login(self.keys["PATREON_MAIL"], self.keys["PATREON_PSSWD"])
-            self.log_message(log_widget, res)
+            test_patreon_login(self.keys["PATREON_MAIL"], self.keys["PATREON_PSSWD"], messages)
+            self.log_message(log_widget, messages[0])
         except Exception as e:
             self.log_message(log_widget, f"Error: {str(e)}")
 

@@ -56,9 +56,10 @@ class PostApp:
         platform_frame = ttk.Frame(main_frame)
         platform_frame.pack(fill=tk.X, pady=(0, 10))
         
+
         # Discord section
         discord_frame = ttk.Frame(platform_frame)
-        discord_frame.pack(side=tk.LEFT, padx=(0, 20))
+        discord_frame.pack(side=tk.LEFT, padx=(0, 30))
         
         self.discord_var = tk.BooleanVar()
         self.discord_short_var = tk.BooleanVar()
@@ -68,9 +69,10 @@ class PostApp:
         ttk.Checkbutton(discord_frame, text="Shortened", 
                         variable=self.discord_short_var).pack(side=tk.LEFT, padx=(5, 0))
 
+
         # Reddit section
         reddit_frame = ttk.Frame(platform_frame)
-        reddit_frame.pack(side=tk.LEFT)
+        reddit_frame.pack(side=tk.LEFT, padx=(0, 30))
         
         self.reddit_var = tk.BooleanVar()
         self.reddit_short_var = tk.BooleanVar()
@@ -79,6 +81,20 @@ class PostApp:
                         variable=self.reddit_var).pack(side=tk.LEFT)
         ttk.Checkbutton(reddit_frame, text="Shortened", 
                         variable=self.reddit_short_var).pack(side=tk.LEFT, padx=(5, 0))
+
+
+        # Patreon section
+        patreon_frame = ttk.Frame(platform_frame)
+        patreon_frame.pack(side=tk.LEFT, padx=(0, 30))
+        
+        self.patreon_var = tk.BooleanVar()
+        self.patreon_short_var = tk.BooleanVar()
+
+        ttk.Checkbutton(patreon_frame, text="Patreon", 
+                        variable=self.patreon_var).pack(side=tk.LEFT)
+        ttk.Checkbutton(patreon_frame, text="Shortened", 
+                        variable=self.patreon_short_var).pack(side=tk.LEFT, padx=(5, 0))
+
 
         # Add log area at the bottom
         log_frame = ttk.LabelFrame(main_frame, text="Logs")
@@ -116,37 +132,37 @@ class PostApp:
         text = self.content_input.get("1.0", tk.END)
         
         self.clear_logs()  # Clear previous logs
-
+        vars = [self.reddit_var.get(), self.discord_var.get(), self.patreon_var.get()]
         
-        if self.reddit_var.get():
-            msg = convert_premium_to_short(text) if self.reddit_short_var.get() else text
-            if msg == "":
-                res = "\n    Message couldn't be converted into short form, so it wasnt sent.\n    Compare the text format with the one in posting/tutorials/sample_long.txt, or send it in long(unedited) form."
-            else:
-                args = [heading, msg]
-                res = post_on_reddit(
-                    os.getenv("REDDIT_ID"),
-                    os.getenv("REDDIT_SECRET"),
-                    os.getenv("SUBREDDIT"),
-                    os.getenv("REDDIT_USERNAME"),
-                    os.getenv("REDDIT_PASSWORD"),
-                    args
-                )
-            self.log_message(f"Reddit Response: {res}")
+        for index, var in enumerate(vars):
+            if var:
+                msg = convert_premium_to_short(text) if self.reddit_short_var.get() else text
+                if msg == "":
+                    res = "\n    Message couldn't be converted into short form, so it wasnt sent.\n    Compare the text format with the one in posting/tutorials/sample_long.txt, or send it in long(unedited) form."
+                else:
+                    if index == 0: # reddit
+                        args = [heading, msg]
+                        res = post_on_reddit(
+                            os.getenv("REDDIT_ID"),
+                            os.getenv("REDDIT_SECRET"),
+                            os.getenv("SUBREDDIT"),
+                            os.getenv("REDDIT_USERNAME"),
+                            os.getenv("REDDIT_PASSWORD"),
+                            args
+                        )
+                        self.log_message(f"Reddit Response: {res}")
 
-        if self.discord_var.get():
-            # Use shortened version if checkbox is checked
-            msg = convert_premium_to_short(text) if self.discord_short_var.get() else text
-            if msg == "":
-                messages = ["Message couldn't be converted into short form, so it wasnt sent.","Compare the text format with the one in posting/tutorials/sample_long.txt, or send it in long(unedited) form."]
-            
-            else:
-                discord_text = heading + "\n\n" + msg
+                    elif index == 1: # discord
+                        discord_text = heading + "\n\n" + msg
 
-                messages = discord_message(discord_text)
-            self.log_message("Discord Response:")
-            for m in messages:
-                self.log_message(f"    {m}")
+                        messages = discord_message(discord_text)
+                        self.log_message("Discord Response:")
+                        for m in messages:
+                            self.log_message(f"    {m}")
+
+                    elif index == 2: # patreon
+                        pass #TODO
+                    
 
     def run(self):
         self.root.mainloop()
