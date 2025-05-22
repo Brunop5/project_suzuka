@@ -179,7 +179,7 @@ class Setup_app:
             self.get_data()
             self.save_new_keys()
 
-            test_patreon_login(self.keys["PATREON_MAIL"], self.keys["PATREON_PSSWD"], messages)
+            test_patreon_login(self.keys["PATREON_MAIL"], self.keys["PATREON_PSSWD"], messages, False)
             self.log_message(log_widget, messages[0])
         except Exception as e:
             self.log_message(log_widget, f"Error: {str(e)}")

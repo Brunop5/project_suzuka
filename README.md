@@ -27,15 +27,13 @@
     - python app that has title and text input field
     - simply edits text to short posts from a premium post
     - checkboxes for where you want to send and what form, and logs
-    - DISCORD, REDDIT
+    - DISCORD, REDDIT, PATREON
   
 # TODO
 ## Bruno
-  - finish patreon posting
-    - update script to work with multiple browsers(safari too)
+  - update and test the patreon script for xpath instead of class name
   - twitter posting (api)
   - look into linkedin
-  - write tutorial for post app
 
 ## Ashley
   - create discord account for code updates(optional but great)

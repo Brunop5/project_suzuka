@@ -21,7 +21,7 @@ class Test_discord(discord.Client):
         await self.close()
 
 # real
-def discord_message(message):
+def discord_message(text):
     messages = []
     DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
     id = os.getenv("DISCORD_CHANNEL")
@@ -41,7 +41,7 @@ def discord_message(message):
             channel = self.get_channel(CHANNEL_ID)
 
             if channel:
-                await channel.send(content=message, suppress_embeds=True)
+                await channel.send(content=text, suppress_embeds=True)
                 self.messages.append("Message sent successfully.")
             else:
                 self.messages.append("Channel not found.")
@@ -50,4 +50,4 @@ def discord_message(message):
     intents = discord.Intents.default()
     client = CustomClient(messages=messages, intents=intents)
     client.run(DISCORD_TOKEN)
-    return messages  # Return the list of messages instead of "Success!"
+    return messages

@@ -3,11 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
-from dotenv import load_dotenv
-from tempfile import mkdtemp
 import os
 from time import sleep
-import logging
+from selenium.webdriver.common.keys import Keys
+import re
+
 
 
 
@@ -31,7 +31,6 @@ def setup_driver():
     firefox_options.set_preference('useAutomationExtension', False)
     # Create the driver
     service = Service(GeckoDriverManager().install())
-    print("installed")
 
     driver = webdriver.Firefox(service=service, options=firefox_options)
     
@@ -39,7 +38,6 @@ def setup_driver():
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     
     return driver
-
 
 
 def test_patreon_login(email, password, messages, cookie_reset):
@@ -67,8 +65,7 @@ def test_patreon_login(email, password, messages, cookie_reset):
         continue_button.click()
         sleep(1)
 
-        password_div = driver.find_element(By.CLASS_NAME, "sc-bc18523-0.eZlbva")
-        password_input = password_div.find_element(By.CLASS_NAME, "sc-13e8657f-2.iMwXpw")
+        password_input = driver.find_elements(By.CLASS_NAME, "sc-13e8657f-2.iMwXpw")[1]
         password_input.send_keys(password)
 
         continue_button.click()
@@ -84,21 +81,78 @@ def test_patreon_login(email, password, messages, cookie_reset):
         creator_button.click()
         sleep(3)
 
-        create_button = driver.find_element(By.CLASS_NAME, "cm-dMgEsi.cm-LNraKM.cm-bcdZOb.cm-bephWK.cm-MLhcyV.cm-DFAJDB.cm-zbhPFN.cm-dupTbP.cm-UsNHpA.cm-TOsLDU")
+        create_button = driver.find_element(By.XPATH, "/html/body/div[1]/div[5]/main/div[1]/div/div/div/div[1]/div[2]/div/div/button")
         create_button.click()
-        sleep(3)
 
+        post_choice = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div/div[2]/div/div/div/div/div/ul/li[1]/a")
+        post_choice.click()
+        sleep(3)
+        
         err = "Internal Error (couldn't find title input field). Contact Bruno"
         title_input = driver.find_element(By.CLASS_NAME, "sc-b73158da-0.kYunmr")
     except:
         messages.append(err)
         driver.quit()
+        return
 
     if title_input.accessible_name == "Title":
         messages.append("Logged in successfuly!")
         return driver
 
-if __name__ == "__main__":
+
+def transform_links(text):
+    # Pattern to match markdown links [text](url)
+    pattern = r'\[([^\]]+)\]\(([^)]+)\)'
+    
+    # Replace each markdown link with "link name : url" format
+    def replace_link(match):
+        link_name = match.group(1)
+        url = match.group(2)
+        return f"{link_name} : {url}"
+    
+    # Replace all links in the text
+    return re.sub(pattern, replace_link, text)
+
+
+def patreon_post(title, text, cookie_reset):
     messages = []
-    test_patreon_login("bruno@platek.sk", "test_psswd1234", messages, False)
-    print(messages[0])
+    mail, password  = os.getenv("PATREON_MAIL"), os.getenv("PATREON_PSSWD")
+    if mail == None or password == None:
+        messages.append("Creditentials missing in .env file!")
+        return
+    try:
+        driver = test_patreon_login(mail, password, messages, cookie_reset)
+        if driver == None:
+            return messages
+        sleep(4)
+        title_input = driver.find_element(By.CLASS_NAME, "sc-b73158da-0.kYunmr")
+        title_input.send_keys(title)
+
+        # Transform the text before sending it
+        transformed_text = transform_links(text)
+        
+        text_input = driver.find_element(By.CLASS_NAME, "ProseMirror.remirror-editor")
+        # Split the text by newlines and send each part with a RETURN key
+        for line in transformed_text.split('\n'):
+            text_input.send_keys(line)
+            text_input.send_keys(Keys.RETURN)
+
+        if cookie_reset:
+            print("If you see this, you got to the last checkpoint with debug, and the script should be working correctly.\nYou have 50 seconds to check or try anything, then the browser window closes.")
+            sleep(50)
+            driver.quit()
+            return messages
+        
+        next_button = driver.find_element(By.CLASS_NAME, "cm-dMgEsi.cm-LNraKM.cm-bcdZOb.cm-bephWK.cm-lCfmZu.cm-DFAJDB.cm-zbhPFN.cm-dupTbP.cm-UsNHpA.cm-TOsLDU")
+        next_button.click()
+        sleep(2)
+
+        publish = driver.find_element(By.CLASS_NAME, "cm-dMgEsi.cm-LNraKM.cm-bcdZOb.cm-bephWK.cm-lCfmZu.cm-DFAJDB.cm-zbhPFN.cm-dupTbP.cm-UsNHpA.cm-TOsLDU")
+        publish.click()
+        messages.append("Post successfully published!")
+        driver.quit()
+    except Exception as e:
+        messages.append(e)
+        driver.quit()
+
+    return messages

@@ -1,0 +1,28 @@
+This is a tutorial for the "main posting" app.
+This app lets you paste a title and text for automatic posting on multiple platforms.
+There is also a simple text editing software incorporated that changes the premium text version (in sample_log.txt) 
+to the short / discord one (sample_short.txt)
+
+App is separated into three parts(from left to right):
+    1. input fields
+        - this includes the input for title, and content of the post
+        
+    2. posting logs (results of the scripts) and the post button
+
+    3. sections of the platforms themselves
+        - the inputed text will be posted on a platform, only when you check the box next to its name
+        - the "Shortened" box if checked, edits the text from long to short form (if it can be done)
+        - to preview what text will be posted (to check text editing maybe) click the "Show" button
+        - for patreon:
+            - some unexpected errors may occur. This is due to it working through an automation tool on frontend of their website.
+              any small changes to frontend, or they thinking you are a bot, can create problems. 
+            - you can check how the script runs, and where it stops by checking the "debug" checkbox, and pressing the post button.
+            - the most common error i found, could be fixed by accepting cookies (even only the required ones), so when debug is checked,
+              try to accept cookies in the window that pops up. maybe that helps. if not, and the error logs arent helpful, contact me.
+
+
+Both discord and reddit should be good long term solutions.
+But this way of patreon posting might be problematic. 
+I will try to make it as time-proof as possible, but its still kind of an unsustainable
+way (although the only one i could figure out) of posting.
+Thats why moving it to the website in the future is probably a good idea.
