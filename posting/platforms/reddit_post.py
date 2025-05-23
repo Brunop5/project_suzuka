@@ -3,14 +3,14 @@ import os
 
 def test_reddit(client_id, secret, subreddit_name, username, password):
     try:
+        print("start")
         reddit = praw.Reddit(
             client_id=client_id,
             client_secret=secret,
-            user_agent=f"linux:com.example.mytestapp:1.0.0 (by {username})",
+            user_agent=f"linux:com.example.mytestapp:1.0.2 (by /u/{username})",
             username=username,
             password=password
         )
-
         reddit.user.me()
         sub = reddit.subreddit(subreddit_name)
         for submission in sub.hot(limit=1):
@@ -53,4 +53,3 @@ def post_on_reddit(args):
         return "Success!"
     except Exception as e:
         return f"ERROR: {e}"
-    

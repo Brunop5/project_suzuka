@@ -132,7 +132,7 @@ def patreon_post(title, text, cookie_reset):
         # Transform the text before sending it
         transformed_text = transform_links(text)
 
-        text_input = driver.find_elements(By.XPATH, "//div[@role='textbox']")
+        text_input = driver.find_element(By.XPATH, "//div[@role='textbox']")
         # Split the text by newlines and send each part with a RETURN key
         for line in transformed_text.split('\n'):
             text_input.send_keys(line)
@@ -155,7 +155,7 @@ def patreon_post(title, text, cookie_reset):
         driver.quit()
     except Exception as e:
         messages.append(e)
-        driver.quit()
+        #driver.quit()
 
     return messages
 
