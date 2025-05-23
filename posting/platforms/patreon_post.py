@@ -120,7 +120,7 @@ def patreon_post(title, text, cookie_reset):
     mail, password  = os.getenv("PATREON_MAIL"), os.getenv("PATREON_PSSWD")
     if mail == None or password == None:
         messages.append("Creditentials missing in .env file!")
-        return
+        return messages
     try:
         driver = test_patreon_login(mail, password, messages, cookie_reset)
         if driver == None:
@@ -144,10 +144,9 @@ def patreon_post(title, text, cookie_reset):
             driver.quit()
             return messages
         
-        next_button = driver.find_elements(By.XPATH, "//button[.//text()[contains(., 'Next')]]")
-        print(len(next_button))
-        print(b.text for b in next_button)
-        next_button[0].click()
+        print("text input worked")
+        next_button = driver.find_element(By.XPATH, "//button[.//text()[contains(., 'Next')]]")
+        next_button.click()
         sleep(1)
 
         publish = driver.find_element(By.XPATH, "//button[.//text()[contains(., 'Publish')]]")
