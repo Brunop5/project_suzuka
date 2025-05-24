@@ -16,11 +16,19 @@ def test_reddit(client_id, secret, subreddit_name, username, password):
         for submission in sub.hot(limit=1):
             print(submission.title)
     except Exception as e:
-        return e
+        msg = str(e)
+        if msg == "received 401 HTTP response":
+            return msg + " => either the Client_ID or Secret is wrong."
+        elif msg == "invalid_grant error processing request":
+            return msg + " => either the username or password is wrong."
+        elif msg == "Redirect to /subreddits/search":
+            return msg + " => the subreddit wasn't found."
+        else:
+            return msg
 
     return "Successfully logged in and found subreddit"
 
-    
+
 
 def post_on_reddit(args):
     client_id, secret, subreddit_name, username, password = os.getenv("REDDIT_ID"), os.getenv("REDDIT_SECRET"), \

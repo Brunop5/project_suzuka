@@ -30,24 +30,26 @@ def discord_message(text):
         return messages
     CHANNEL_ID = int(id)
 
+    try: 
+        class CustomClient(discord.Client):
+            def __init__(self, messages, *args, **kwargs):
+                super().__init__(*args, **kwargs)
+                self.messages = messages
 
-    class CustomClient(discord.Client):
-        def __init__(self, messages, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.messages = messages
+            async def on_ready(self):
+                self.messages.append(f'Logged in as {self.user} (ID: {self.user.id})')
+                channel = self.get_channel(CHANNEL_ID)
 
-        async def on_ready(self):
-            self.messages.append(f'Logged in as {self.user} (ID: {self.user.id})')
-            channel = self.get_channel(CHANNEL_ID)
+                if channel:
+                    await channel.send(content=text, suppress_embeds=True)
+                    self.messages.append("Message sent successfully.")
+                else:
+                    self.messages.append("Channel not found.")
+                await self.close()
 
-            if channel:
-                await channel.send(content=text, suppress_embeds=True)
-                self.messages.append("Message sent successfully.")
-            else:
-                self.messages.append("Channel not found.")
-            await self.close()
-
-    intents = discord.Intents.default()
-    client = CustomClient(messages=messages, intents=intents)
-    client.run(DISCORD_TOKEN)
+        intents = discord.Intents.default()
+        client = CustomClient(messages=messages, intents=intents)
+        client.run(DISCORD_TOKEN)
+    except:
+        return messages
     return messages
