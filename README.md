@@ -5,9 +5,10 @@
     - then run: "bash posting/setup.sh"
     - this will install all the dependencies and create executables.
 2. once it is ran, two executables will show up in the project_suzuka-main/ directory:
-    - run_post.sh (runs the main app for posting)
-    - setup_env.sh (runs the app for setting up api keys)
-3. to run either of them, right click on them and choose "run as a program"
+    - run_post.command (runs the main app for posting)
+    - setup_env.command (runs the app for setting up api keys)
+3. to run either of them, double click on them (and if that doesnt work, right click on them and choose "run as a program")
+   (another option, if both fail for some reason, is to just run "bash run_post.command" in the terminal and the project_suzuka-main/ directory)
 
 - to gather information on working with the apps and gathering api keys, you can check the tutorials in "project_suzuka-main/posting/tutorials/" directory
 
@@ -31,7 +32,9 @@
   
 # TODO
 ## Bruno
-  - update and test the patreon script for xpath instead of class name
+  - try reddit with different text formats(bold and stuff)
+  - images posting reddit
+  - add a check for a valid submission(if it wasnt deleted) - if possible
   - twitter posting (api)
   - look into linkedin
 
