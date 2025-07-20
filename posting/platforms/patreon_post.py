@@ -49,7 +49,7 @@ def test_patreon_login(email, password, messages, cookie_reset):
         else:
             driver = setup_driver()
         
-        err = "Internal Error (couldn't load the page). Contact Bruno"
+        err = "Internal Error (couldn't load the page)."
 
         url = "https://www.patreon.com/login"
         driver.get(url)
@@ -70,12 +70,12 @@ def test_patreon_login(email, password, messages, cookie_reset):
         password_input.send_keys(password)
 
         continue_button.click()
-        err = "Incorrect password for this email. (if you're sure you typed it correctly, contact Bruno)"
+        err = "Incorrect password for this email."
         sleep(3)
 
         member_button = driver.find_element(By.XPATH, "//button[@data-tag='account-menu-toggle-switcher']")
         member_button.click() 
-        err = "Internal Error (couldn't find the creator button). Contact Bruno"
+        err = "Internal Error (couldn't find the creator button)."
         sleep(1)
 
         creator_button = driver.find_element(By.XPATH, "//a[@aria-label='Go to creator home page']")
@@ -89,7 +89,7 @@ def test_patreon_login(email, password, messages, cookie_reset):
         post_choice.click()
         sleep(3)
         
-        err = "Internal Error (couldn't find title input field). Contact Bruno"
+        err = "Internal Error (couldn't find title input field)."
         title_input = driver.find_elements(By.TAG_NAME, "textarea")[0]
     except:
         messages.append(err)
