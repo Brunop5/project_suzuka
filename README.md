@@ -107,7 +107,7 @@ However, core functionality for posting and environment configuration is complet
 
 ## License
 
-[Specify your license here, e.g., MIT, Apache 2.0, or leave this section out if undecided.]
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
