@@ -56,15 +56,15 @@ Patreon posting uses Selenium browser automation rather than an official API (be
    bash posting/setup.sh
    ```
    This installs dependencies and creates two command files in the root directory:
-   - `run_post.command` – Launches the posting interface  
-   - `setup_env.command` – Launches the API key setup interface
+   - `run_post.sh` – Launches the posting interface  
+   - `setup_env.sh` – Launches the API key setup interface
 
 4. To run either of the apps:
-   - Double-click the `.command` file, or  
+   - Double-click the `.sh` file, or  
    - If that fails, right-click and choose "Run as a program", or  
    - Run it manually from terminal:
      ```bash
-     bash run_post.command
+     ./run_post.sh
      ```
 
 ---
@@ -94,11 +94,14 @@ However, core functionality for posting and environment configuration is complet
 
 ## Tech Stack
 
-- Python  
-- Shell scripting (`.sh`, `.command`)  
-- Selenium (used for Patreon automation)  
-- Platform APIs: Discord, Reddit  
-- GUI framework: [Specify here – e.g., Tkinter, PyQt, etc.]
+- **Python** — Core language for both the setup and posting apps  
+- **Shell scripting** (`.sh`) — Used for setup automation and app launching  
+- **Selenium** — Used for automating Patreon posts via browser (not API-based)  
+- **discord.py** — For posting to Discord  
+- **PRAW (Python Reddit API Wrapper)** — For posting to Reddit  
+- **python-dotenv** — Loads environment variables from `.env` files  
+- **re** — Used for text parsing and pattern matching  
+- **Tkinter** — Used for building the GUI interfaces
 
 ---
 
