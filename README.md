@@ -14,6 +14,11 @@ It includes both a setup interface for managing API keys and a posting app that 
 - Keys can be tested and overwritten by saving a new value under the same name  
 - Works with Discord, Reddit, and Patreon (more platforms easily addable)
 
+**Screenshot:**  
+![Environment Setup App](images/suzuka_setup.png)
+
+---
+
 ### Posting App
 
 - GUI with input fields for title and text  
@@ -21,6 +26,9 @@ It includes both a setup interface for managing API keys and a posting app that 
 - Lets you select which platforms to post to  
 - Shows basic logs and results  
 - Supports Discord, Reddit, and Patreon
+
+**Screenshot:**  
+![Posting App](images/suzuka_post.png)
 
 **Note:**  
 Patreon posting uses Selenium browser automation rather than an official API (because Patreon’s API is restrictive for posting). This is not a long-term solution and may no longer function reliably.
