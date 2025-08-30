@@ -114,3 +114,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## Contributing
 
 Contributions are welcome. Feel free to fork the project or submit pull requests to extend functionality or improve code quality.
+
+## Other Projects
+Ceckout my other project Mint Machina (mintmachina.com) - an app for creating crypto
